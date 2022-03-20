@@ -1,0 +1,22 @@
+{
+  "name": "house-data-import",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "npx eslint src/**/*.ts --fix",
+    "start": "npx tsc && node dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mysql": "^2.15.21",
+    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/parser": "^5.15.0",
+    "eslint": "^8.11.0",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "mysql2": "^2.3.3"
+  }
+}
