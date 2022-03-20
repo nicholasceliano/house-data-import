@@ -1,11 +1,18 @@
-import mysql from 'mysql2';
+import { HouseDataProvider } from '../models/enums';
+import { HouseDataService } from './services/house-data-service';
+import { MySqlService } from './services/mysql.service';
 
 export class  App {
+    private db: MySqlService;
+    private houseDataService: HouseDataService;
 
-    constructor() {}
+    constructor() {
+        this.db = new MySqlService();
+        this.houseDataService = new HouseDataService(this.db);
+    }
 
     init() {
-        // mysql.createConnection();
+        this.houseDataService.importHouseData(HouseDataProvider.Zillow);
     }
 }
 
