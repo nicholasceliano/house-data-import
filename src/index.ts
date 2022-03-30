@@ -12,7 +12,17 @@ export class  App {
     }
 
     init() {
-        this.houseDataService.importHouseData(HouseDataProvider.Zillow);
+        // this.houseDataService.importHouseData(HouseDataProvider.Zillow);
+
+        this.db.getHouseDataZpIdsWithoutHouseDetailRecords().then(([rows]) => {
+            (rows as any[]).forEach((x, idx) => {
+                setTimeout(() => this.houseDataService.retreiveZillowHousingDetails(x.HomeZpId), 2000 * idx);
+            });
+        }).catch(err => {
+            console.log(err);
+        });
+
+        //latitude/longitude messed up in HouseData
     }
 }
 

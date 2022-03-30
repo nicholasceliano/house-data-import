@@ -1,6 +1,7 @@
 import mysql from 'mysql2';
 import { environment } from '../../environment/environment.prod';
 import { HouseData } from '../../models/houseData';
+import { HouseDetails } from '../../models/houseDetails';
 
 export class MySqlService {
 
@@ -24,5 +25,19 @@ export class MySqlService {
             hd.homeType, hd.isPreforclosureAuction, hd.latitude, hd.livingArea, hd.longitude, hd.lotAreaUnit, hd.lotArea, hd.price, hd.priceForHDP, hd.rentZestimate, hd.state, hd.taxAssessedValue, hd.zestimate,
             hd.zipCode, hd.imgSrc, hd.listingType, hd.priceText, hd.priceLabel, hd.streeViewMetadataUrl, hd.streeViewUrl]
         );
+    }
+
+    insertHouseDetailsRecords(hd: HouseDetails) {    
+        return this.execQuery(`INSERT INTO RawHouseDetails 
+            (ZpId, DateSold, DateSoldString, \`Description\`, IsNonOwnerOccupied, LastSoldPrice, MlsId, MonthlyHoaFee, ParcelId, PhotoCount, ParentRegion, PriceHistory, ResoFacts,
+                Schools, StreetAddress, TaxAssessedValue, TaxAssessedYear, TaxHistory, YearBuilt) VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [hd.zpid, hd.dateSold, hd.dateSoldString, hd.description, hd.isNonOwnerOccupied, hd.lastSoldPrice, hd.mlsid, hd.monthlyHoaFee, hd.parcelId, hd.photoCount, hd.parentRegion, hd.priceHistory, hd.resoFacts,
+            hd.schools, hd.streetAddress, hd.taxAssessedValue, hd.taxAssessedYear, hd.taxHistory, hd.yearBuilt]
+        );
+    }
+
+    getHouseDataZpIdsWithoutHouseDetailRecords() {
+        return this.execQuery(`SELECT DISTINCT HomeZpId FROM RawHouseData WHERE HomeZpId NOT IN (SELECT DISTINCT ZpId FROM RawHouseDetails)`);
     }
 }
